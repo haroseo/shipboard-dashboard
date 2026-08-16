@@ -1,0 +1,38 @@
+# Project TODO
+
+- [x] GitHub Personal Access Token 설정 화면과 저장소 선택 흐름 UI
+- [x] 반응형 브루탈리즘 사이드바 대시보드 레이아웃
+- [x] 홈 요약 위젯: 최근 커밋, 배포 상태, 열린 이슈·PR 수
+- [x] 저장소 파일 변경 작성 및 커밋 메시지 입력 UI
+- [x] GitHub 파일 커밋/푸시 백엔드 연동
+- [x] 사이트 재배포 실행 버튼 및 성공/실패/진행 중 상태 표시
+- [x] GitHub 이슈 목록, 생성, open/closed 상태 변경 UI
+- [x] GitHub Pull Request 목록, 생성, 상태 확인 UI
+- [x] 모바일·태블릿·PC 반응형 접근성 및 사이드바 동작 검증
+- [x] GitHub API 관련 Vitest 테스트 작성 및 실행
+- [x] 브라우저 화면 및 주요 상호작용 검증
+- [x] 이슈·PR 목록과 생성·상태 변경 UI를 GitHub tRPC 데이터에 연결하기
+- [x] 커밋·이슈·PR 전체 GitHub API 호출에 대한 Vitest 범위 확장하기
+- [x] 배포 workflow dispatch와 workflow 상태 조회 서버 계약 연결하기
+- [x] GitHub Actions 배포 상태를 클라이언트 query 기반으로 10초 주기 갱신하기
+- [x] 배포 상태 자동 갱신의 성공·실패·진행 중 매핑 및 타입 검증
+- [x] 커밋 화면 변경 파일 트리 표시
+- [x] 커밋 화면 unified Diff 미리보기 표시
+- [x] 모바일·태블릿에서 배포 갱신과 Diff 화면 검증
+- [x] 배포 상태 자동 갱신 매핑을 순수 함수로 분리하고 Vitest 테스트 추가
+- [x] Diff 미리보기를 현재 편집 내용 기반으로 동적 계산
+- [x] 태블릿 viewport와 핵심 상호작용 검증 증거 추가
+- [x] 설정 화면에 GitHub Actions 자동 갱신 주기 선택 UI 추가
+- [x] 마지막 갱신 시각 및 수동 새로고침 상태 표시
+- [x] GitHub Pages 호스팅용 workflow ID·branch·Pages URL 설정 UI 추가
+- [x] GitHub Pages workflow dispatch 입력에 설정값 연결
+- [x] 설정 화면 반응형 및 관련 테스트 검증
+- [x] 설정 화면에 실제 Actions 마지막 갱신 시각과 수동 새로고침 상태 표시
+- [x] Settings 모바일·태블릿 viewport 검증
+- [x] 갱신 설정 상태 표시 helper 테스트 추가
+- [x] 수동 새로고침 진행 중·성공·실패 상태를 설정 화면에 명시
+- [x] 갱신 상태 포맷·전이 helper를 분리하고 Vitest 테스트 추가
+- [ ] GitHub Pages용 Actions workflow 파일 추가
+- [ ] 새 GitHub 저장소 생성 및 전체 프로젝트 푸시
+- [ ] GitHub Pages 배포 workflow 실행 상태 확인
+- [ ] 저장소 URL과 Pages 배포 URL 전달

@@ -1,0 +1,13 @@
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { commitFile, createIssue, createPullRequest, dispatchWorkflow, listCommits, listIssues, listPullRequests, listRepositories, updateIssue } from "./github";
+
+afterEach(() => vi.unstubAllGlobals());
+const opts = { token: "secret-token", owner: "acme", repo: "app" };
+const ok = (body: unknown, status = 200) => new Response(body === null ? null : JSON.stringify(body), { status });
+
+describe("github integration", () => {
+  it("lists repositories with the bearer token", async () => { const fetchMock = vi.fn().mockResolvedValue(ok([{ id: 1, full_name: "acme/app" }])); vi.stubGlobal("fetch", fetchMock); const result = await listRepositories("secret-token"); expect(result[0]?.full_name).toBe("acme/app"); expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining("/user/repos"), expect.objectContaining({ headers: expect.objectContaining({ Authorization: "Bearer secret-token" }) })); });
+  it("lists commits, issues, and pull requests", async () => { const fetchMock = vi.fn().mockImplementation(() => ok([{ sha: "abc", title: "item", state: "open" }])); vi.stubGlobal("fetch", fetchMock); await expect(listCommits(opts)).resolves.toHaveLength(1); await expect(listIssues(opts)).resolves.toHaveLength(1); await expect(listPullRequests(opts)).resolves.toHaveLength(1); expect(fetchMock).toHaveBeenCalledTimes(3); });
+  it("creates and updates issues and pull requests", async () => { const fetchMock = vi.fn().mockImplementation(() => ok({ number: 1 })); vi.stubGlobal("fetch", fetchMock); await createIssue({ ...opts, title: "Bug" }); await updateIssue({ ...opts, issueNumber: 1, state: "closed" }); await createPullRequest({ ...opts, title: "Feature", head: "feature/x", base: "main" }); expect(fetchMock).toHaveBeenCalledTimes(3); expect(fetchMock.mock.calls[1]?.[1]).toEqual(expect.objectContaining({ method: "PATCH", body: JSON.stringify({ state: "closed" }) })); });
+  it("updates a file with the existing sha and dispatches deployment", async () => { const fetchMock = vi.fn().mockResolvedValueOnce(ok({ sha: "old-sha" })).mockResolvedValueOnce(ok({ content: {} })).mockResolvedValueOnce(ok(null, 204)); vi.stubGlobal("fetch", fetchMock); await commitFile({ ...opts, path: "README.md", message: "update", content: "hello", branch: "main" }); await dispatchWorkflow({ ...opts, workflowId: "deploy.yml", ref: "main" }); expect(fetchMock.mock.calls[1]?.[1]).toEqual(expect.objectContaining({ method: "PUT" })); expect(fetchMock.mock.calls[2]?.[1]).toEqual(expect.objectContaining({ method: "POST", body: JSON.stringify({ ref: "main" }) })); });
+});
